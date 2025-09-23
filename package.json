@@ -1,0 +1,14 @@
+{
+  "name": "repomix-wrapper",
+  "version": "1.0.0",
+  "main": "server.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
