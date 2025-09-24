@@ -46,7 +46,6 @@ const server = new Server(
           ]
         };
       } catch (e) {
-        console.error("Error running repomix:", e);
         return { content: [{ type: "text", text: `❌ repomix failed: ${e.message}` }] };
       }
     }
@@ -55,31 +54,19 @@ const server = new Server(
 
 // Minimal HTTP/SSE transport
 import express from "express";
-import cors from "cors";
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
 app.get("/sse", async (req, res) => {
-  try {
-    const transport = new SSEServerTransport("/messages", res);
-    await server.connect(transport);
-  } catch (err) {
-    console.error("Error in /sse endpoint:", err);
-    res.status(500).json({ error: err.message });
-  }
+  const transport = new SSEServerTransport("/messages", res);
+  await server.connect(transport);
 });
 
 app.post("/messages", async (req, res) => {
-  try {
-    res.status(200).end();
-  } catch (err) {
-    console.error("Error in /messages endpoint:", err);
-    res.status(500).json({ error: err.message });
-  }
+  res.status(200).end();
 });
 
-app.listen(3333, '0.0.0.0', () => {
+app.listen(3333, () => {
   console.log("MCP SSE server running at http://localhost:3333/sse");
 });
